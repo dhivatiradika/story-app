@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Story App</string>
+    <string name="intro">Temukan cerita-cerita menarik dari teman-teman dicoding yang dapat menginspirasimu.</string>
+    <string name="app_logo">App logo</string>
+    <string name="mulai">Mulai</string>
 </resources>
