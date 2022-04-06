@@ -3,4 +3,10 @@
     <string name="intro">Temukan cerita-cerita menarik dari teman-teman dicoding yang dapat menginspirasimu.</string>
     <string name="app_logo">App logo</string>
     <string name="mulai">Mulai</string>
+    <string name="login_title">Sebelum melihat cerita-cerita menarik</string>
+    <string name="login_subtitle">Masuk terlebih dahulu</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="to_register">Belum punya akun? Daftar disini</string>
+    <string name="login">Masuk</string>
 </resources>
