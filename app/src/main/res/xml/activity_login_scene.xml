@@ -41,7 +41,7 @@
         <Constraint
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:id="@+id/tv_register"
+            android:id="@+id/tv_login"
             motion:layout_constraintStart_toStartOf="@+id/bt_login"
             motion:layout_constraintEnd_toEndOf="@+id/bt_login"
             motion:layout_constraintTop_toBottomOf="@+id/bt_login"
