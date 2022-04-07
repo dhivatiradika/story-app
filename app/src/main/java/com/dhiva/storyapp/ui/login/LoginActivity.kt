@@ -15,7 +15,7 @@ import com.dhiva.storyapp.customview.EmailEditText
 import com.dhiva.storyapp.customview.PasswordEditText
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.model.User
-import com.dhiva.storyapp.ui.SignupActivity
+import com.dhiva.storyapp.ui.signup.SignupActivity
 import com.dhiva.storyapp.utils.matchEmailFormat
 import com.dhiva.storyapp.utils.toast
 
@@ -37,13 +37,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        loginViewModel.getAuthSession().observe(this) {
-            if (it.token != null){
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                finish()
-            }
-        }
-
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.et_password)
         btLogin = findViewById(R.id.bt_login)
@@ -61,6 +54,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
+        loginViewModel.getAuthSession().observe(this) {
+            if (it.token != null){
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
+            }
+        }
         loginViewModel.result.observe(this) { result ->
             when(result){
                 is Resource.Loading -> isLoadingShown(true)
@@ -78,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
                     this.toast(result.message ?: resources.getString(R.string.something_wrong))
                 }
             }
-
         }
     }
 
