@@ -14,4 +14,8 @@
     <string name="register">Daftar</string>
     <string name="to_login">Sudah memiliki akun? Masuk disini</string>
     <string name="name">Nama</string>
+    <string name="wrong_email_format">Format email salah!</string>
+    <string name="wrong_password_format">Password harus lebih dari 6 karakter!</string>
+    <string name="loading">Loading</string>
+    <string name="something_wrong">Terjadi kesalahan</string>
 </resources>

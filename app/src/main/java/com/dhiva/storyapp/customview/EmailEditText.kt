@@ -9,6 +9,7 @@ import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dhiva.storyapp.R
+import com.dhiva.storyapp.utils.matchEmailFormat
 
 class EmailEditText : AppCompatEditText {
     private lateinit var emailIcon: Drawable
@@ -49,7 +50,7 @@ class EmailEditText : AppCompatEditText {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                if (Patterns.EMAIL_ADDRESS.matcher(s).matches()) setEmailRight() else setEmailError()
+                if (s.matchEmailFormat()) setEmailRight() else setEmailError()
             }
 
             override fun afterTextChanged(s: Editable) {
