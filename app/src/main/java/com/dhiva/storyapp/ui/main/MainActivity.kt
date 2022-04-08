@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhiva.storyapp.R
@@ -11,6 +12,7 @@ import com.dhiva.storyapp.adapter.ListStoryAdapter
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
+import com.dhiva.storyapp.ui.addstory.AddStoryActivity
 import com.dhiva.storyapp.ui.detail.DetailStoryActivity
 import com.dhiva.storyapp.ui.login.LoginActivity
 
@@ -23,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.fabAdd.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
+            launcherActivityAddStory.launch(intent)
+        }
         initViewModel()
     }
 
@@ -54,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                     showError(result.message ?: resources.getString(R.string.something_wrong))
                 }
             }
-
         }
     }
 
@@ -74,6 +79,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private val launcherActivityAddStory = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        mainViewModel.getAuthSession()
+    }
+
     private fun isLoadingShown(isShow: Boolean){
         binding.pbLoading.visibility = if (isShow) View.VISIBLE else View.GONE
     }
@@ -85,5 +96,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         const val EXTRA_STORY = "extra_story"
+        const val INTENT_RESULT = 200
     }
 }

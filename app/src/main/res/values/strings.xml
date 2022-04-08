@@ -25,4 +25,15 @@
     <string name="no_data">Tidak ada data</string>
     <string name="to_main_screen">Go back to main screen</string>
     <string name="to_add_story">to add story</string>
+    <string name="add_story">Add New Story</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="to_capture">to capture</string>
+    <string name="to_switch_camera">to switch camera</string>
+    <string name="no_permission">\"Tidak mendapatkan permission\"</string>
+    <string name="take_picture_failed">\"Gagal mengambil gambar.\"</string>
+    <string name="start_camera_failed">\"Gagal memunculkan kamera.\"</string>
+    <string name="no_file">Silakan pilih gambar terlebih dahulu</string>
 </resources>
