@@ -1,5 +1,6 @@
 package com.dhiva.storyapp.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,8 @@ import com.dhiva.storyapp.adapter.ListStoryAdapter
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
+import com.dhiva.storyapp.ui.detail.DetailStoryActivity
+import com.dhiva.storyapp.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +29,12 @@ class MainActivity : AppCompatActivity() {
     private fun initViewModel() {
         mainViewModel.getAuthSession().observe(this) { user ->
             user.token?.let { token ->
-                mainViewModel.getStories(token)
+                if (token.isNotEmpty()){
+                    mainViewModel.getStories(token)
+                } else {
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    finish()
+                }
             }
         }
 
@@ -59,7 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         listAdapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Story) {
-
+                val intent = Intent(this@MainActivity, DetailStoryActivity::class.java)
+                intent.putExtra(EXTRA_STORY, data)
+                startActivity(intent)
             }
         })
     }
@@ -70,5 +80,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(message: String){
         binding.tvError.text = message
+        binding.tvError.visibility = View.VISIBLE
+    }
+
+    companion object{
+        const val EXTRA_STORY = "extra_story"
     }
 }
