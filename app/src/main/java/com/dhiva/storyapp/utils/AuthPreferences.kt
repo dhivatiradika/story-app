@@ -34,7 +34,6 @@ class AuthPreferences private constructor(private val dataStore: DataStore<Prefe
             preferences[tokenKey] = user.token ?: ""
         }
     }
-
     companion object {
         @Volatile
         private var INSTANCE: AuthPreferences? = null

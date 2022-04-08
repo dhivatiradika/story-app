@@ -20,4 +20,7 @@
     <string name="something_wrong">Terjadi kesalahan</string>
     <string name="wrong_name_format">Nama tidak valid!</string>
     <string name="signup_success">Berhasil membuat akun!</string>
+    <string name="image_story">image story</string>
+    <string name="logo_vertical">logo vertical</string>
+    <string name="no_data">Tidak ada data</string>
 </resources>

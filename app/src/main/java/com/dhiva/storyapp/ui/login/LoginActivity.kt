@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.dhiva.storyapp.MainActivity
+import com.dhiva.storyapp.ui.main.MainActivity
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.customview.EmailEditText
 import com.dhiva.storyapp.customview.PasswordEditText
