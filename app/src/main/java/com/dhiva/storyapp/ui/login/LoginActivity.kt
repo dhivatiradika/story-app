@@ -58,13 +58,14 @@ class LoginActivity : AppCompatActivity() {
             if (it.token != null){
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
+            } else{
+                isLoadingShown(false)
             }
         }
         loginViewModel.result.observe(this) { result ->
             when(result){
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
-                    isLoadingShown(false)
                     val user = User(
                         name = result.data?.name,
                         userId = result.data?.userId,

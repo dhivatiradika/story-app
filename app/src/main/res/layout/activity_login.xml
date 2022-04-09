@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutDescription="@xml/activity_login_scene"
+            android:visibility="gone"
             tools:context=".ui.login.LoginActivity">
 
             <ImageView
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:backgroundTint="@color/blue"
-                android:text="@string/mulai"
+                android:text="@string/start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -160,8 +161,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loading_screen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
             <ProgressBar
                 android:layout_width="wrap_content"

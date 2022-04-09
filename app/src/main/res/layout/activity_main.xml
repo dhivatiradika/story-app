@@ -69,4 +69,17 @@
         app:srcCompat="@drawable/ic_add"
         android:focusable="true"
         android:contentDescription="@string/to_add_story" />
+
+    <ImageButton
+        android:id="@+id/ib_settings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/to_settings"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_settings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

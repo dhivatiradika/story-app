@@ -1,10 +1,7 @@
 package com.dhiva.storyapp.ui.main
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.StoriesResponse
@@ -13,6 +10,7 @@ import com.dhiva.storyapp.model.User
 import com.dhiva.storyapp.model.toModel
 import com.dhiva.storyapp.utils.AuthPreferences
 import com.dhiva.storyapp.utils.preferences
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,8 +23,11 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val result: LiveData<Resource<List<Story>>> = _result
 
     fun getAuthSession(): LiveData<User> {
-        _result.value = Resource.Loading()
         return prefs.getUserAuth().asLiveData()
+    }
+
+    fun logout() = viewModelScope.launch {
+        prefs.removeUserAuth()
     }
 
     fun getStories(token: String){

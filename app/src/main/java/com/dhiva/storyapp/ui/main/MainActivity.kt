@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
             launcherActivityAddStory.launch(intent)
         }
+        binding.ibSettings.setOnClickListener { SettingDialog().show(supportFragmentManager, "SettingFragment") }
         initViewModel()
     }
 

@@ -34,6 +34,11 @@ class AuthPreferences private constructor(private val dataStore: DataStore<Prefe
             preferences[tokenKey] = user.token ?: ""
         }
     }
+
+    suspend fun removeUserAuth(){
+        dataStore.edit { it.clear() }
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: AuthPreferences? = null
