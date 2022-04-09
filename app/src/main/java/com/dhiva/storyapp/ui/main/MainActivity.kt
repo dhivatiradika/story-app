@@ -15,6 +15,7 @@ import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.ui.addstory.AddStoryActivity
 import com.dhiva.storyapp.ui.detail.DetailStoryActivity
 import com.dhiva.storyapp.ui.login.LoginActivity
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

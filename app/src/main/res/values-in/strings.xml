@@ -41,4 +41,7 @@
     <string name="app_version_footnote">Story App v1.0.0</string>
     <string name="language">Bahasa</string>
     <string name="log_out">Keluar</string>
+    <string name="appwidget_text">Cerita Dicoding</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="app_widget_description">Kumpulan cerita dari user dicoding</string>
 </resources>

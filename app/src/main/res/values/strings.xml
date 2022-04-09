@@ -41,4 +41,7 @@
     <string name="app_version_footnote">Story App v1.0.0</string>
     <string name="language">Language</string>
     <string name="log_out">Log Out</string>
+    <string name="appwidget_text">Dicoding stories</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">List of dicoding users story</string>
 </resources>
