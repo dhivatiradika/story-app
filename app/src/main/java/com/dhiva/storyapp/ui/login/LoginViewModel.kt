@@ -17,13 +17,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel(application: Application): AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val prefs = AuthPreferences.getInstance(application.preferences)
 
     private val _result = MutableLiveData<Resource<LoginResult>>()
     val result: LiveData<Resource<LoginResult>> = _result
 
-    fun login(email: String, password: String){
+    fun login(email: String, password: String) {
         _result.value = Resource.Loading()
         val jsonObject = JSONObject()
         jsonObject.put("email", email)
@@ -33,12 +33,12 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 
         val client = ApiConfig.getApiService().login(requestBody)
-        client.enqueue(object : Callback<LoginResponse>{
+        client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful){
-                   response.body()?.loginResult?.run {
-                       _result.value = Resource.Success(this)
-                   }
+                if (response.isSuccessful) {
+                    response.body()?.loginResult?.run {
+                        _result.value = Resource.Success(this)
+                    }
                 } else {
                     response.errorBody()?.run {
                         val message = JSONObject(this.string()).getString("message")

@@ -1,11 +1,11 @@
 package com.dhiva.storyapp.ui.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.adapter.ListStoryAdapter
@@ -15,7 +15,6 @@ import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.ui.addstory.AddStoryActivity
 import com.dhiva.storyapp.ui.detail.DetailStoryActivity
 import com.dhiva.storyapp.ui.login.LoginActivity
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -30,14 +29,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
             launcherActivityAddStory.launch(intent)
         }
-        binding.ibSettings.setOnClickListener { SettingDialog().show(supportFragmentManager, "SettingFragment") }
+        binding.ibSettings.setOnClickListener {
+            SettingDialog().show(
+                supportFragmentManager,
+                "SettingFragment"
+            )
+        }
         initViewModel()
     }
 
     private fun initViewModel() {
         mainViewModel.getAuthSession().observe(this) { user ->
             user.token?.let { token ->
-                if (token.isNotEmpty()){
+                if (token.isNotEmpty()) {
                     mainViewModel.getStories(token)
                 } else {
                     startActivity(Intent(this@MainActivity, LoginActivity::class.java))
@@ -46,12 +50,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel.result.observe(this){ result ->
-            when(result){
+        mainViewModel.result.observe(this) { result ->
+            when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
                     isLoadingShown(false)
-                    if (result.data != null && result.data.isNotEmpty()){
+                    if (result.data != null && result.data.isNotEmpty()) {
                         showRecyclerList(result.data)
                     } else {
                         showError(resources.getString(R.string.no_data))
@@ -87,16 +91,16 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getAuthSession()
     }
 
-    private fun isLoadingShown(isShow: Boolean){
+    private fun isLoadingShown(isShow: Boolean) {
         binding.pbLoading.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 
-    private fun showError(message: String){
+    private fun showError(message: String) {
         binding.tvError.text = message
         binding.tvError.visibility = View.VISIBLE
     }
 
-    companion object{
+    companion object {
         const val EXTRA_STORY = "extra_story"
         const val INTENT_RESULT = 200
     }

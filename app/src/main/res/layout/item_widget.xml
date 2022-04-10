@@ -11,5 +11,6 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        tools:srcCompat="@drawable/image_placeholder" />
+        tools:srcCompat="@drawable/image_placeholder"
+        android:contentDescription="@string/app_widget_description" />
 </LinearLayout>

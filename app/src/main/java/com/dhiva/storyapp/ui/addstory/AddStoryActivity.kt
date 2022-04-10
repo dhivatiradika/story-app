@@ -10,7 +10,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dhiva.storyapp.R
@@ -45,7 +44,7 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        with(binding){
+        with(binding) {
             ibBack.setOnClickListener {
                 finish()
             }
@@ -61,18 +60,18 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(){
-        if (getFile != null){
+    private fun uploadImage() {
+        if (getFile != null) {
             getTokenThenUpload()
         } else {
             this.toast(resources.getString(R.string.no_file))
         }
     }
 
-    private fun getTokenThenUpload(){
-        addStoryViewModel.getAuthSession().observe(this){ user ->
+    private fun getTokenThenUpload() {
+        addStoryViewModel.getAuthSession().observe(this) { user ->
             user.token?.let { token ->
-                if (token.isNotEmpty()){
+                if (token.isNotEmpty()) {
                     addStoryViewModel.uploadImage(token, getFile, binding.etDesc.text.toString())
                 } else {
                     startActivity(Intent(this@AddStoryActivity, LoginActivity::class.java))
@@ -82,8 +81,8 @@ class AddStoryActivity : AppCompatActivity() {
 
         }
 
-        addStoryViewModel.result.observe(this){ result ->
-            when(result){
+        addStoryViewModel.result.observe(this) { result ->
+            when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
                     isLoadingShown(false)
@@ -141,7 +140,8 @@ class AddStoryActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == CAMERA_X_RESULT) {
             val myFile = it.data?.getSerializableExtra(CameraActivity.EXTRA_PICTTURE) as File
-            val isBackCamera = it.data?.getBooleanExtra(CameraActivity.EXTRA_IS_BACK_CAMERA, true) as Boolean
+            val isBackCamera =
+                it.data?.getBooleanExtra(CameraActivity.EXTRA_IS_BACK_CAMERA, true) as Boolean
 
             getFile = myFile
             val result = rotateBitmap(
@@ -167,7 +167,7 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun isLoadingShown(isShow: Boolean){
+    private fun isLoadingShown(isShow: Boolean) {
         binding.pbLoading.visibility = if (isShow) View.VISIBLE else View.GONE
         binding.layout.visibility = if (isShow) View.GONE else View.VISIBLE
     }

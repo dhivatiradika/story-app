@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(application: Application): AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val prefs = AuthPreferences.getInstance(application.preferences)
 
     private val _result = MutableLiveData<Resource<List<Story>>>()
@@ -30,17 +30,17 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         prefs.removeUserAuth()
     }
 
-    fun getStories(token: String){
+    fun getStories(token: String) {
         _result.value = Resource.Loading()
         val authToken = "Bearer $token"
         val client = ApiConfig.getApiService().getStories(authToken)
 
-        client.enqueue(object : Callback<StoriesResponse>{
+        client.enqueue(object : Callback<StoriesResponse> {
             override fun onResponse(
                 call: Call<StoriesResponse>,
                 response: Response<StoriesResponse>
             ) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.listStory?.run {
                         _result.value = Resource.Success(this.toModel())
                     }

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.core.net.toUri
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.ApiConfig
@@ -37,20 +36,11 @@ class StoryWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent) {
-        super.onReceive(context, intent)
-        if (intent.action != null) {
-            if (intent.action == TOAST_ACTION) {
-                val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
-                Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun getData(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int) {
+        appWidgetId: Int
+    ) {
         val user = AuthPreferences.getInstance(context.preferences).getUserAuth()
         scope.launch {
             user.collect {
@@ -63,7 +53,7 @@ class StoryWidget : AppWidgetProvider() {
                             call: Call<StoriesResponse>,
                             response: Response<StoriesResponse>
                         ) {
-                            if (response.isSuccessful){
+                            if (response.isSuccessful) {
                                 response.body()?.listStory?.run {
                                     updateAppWidget(context, appWidgetManager, appWidgetId, this)
                                 }
@@ -81,15 +71,19 @@ class StoryWidget : AppWidgetProvider() {
 
 
     companion object {
-        private const val TOAST_ACTION = "com.dicoding.picodiploma.TOAST_ACTION"
-        const val EXTRA_ITEM = "com.dicoding.picodiploma.EXTRA_ITEM"
+        private const val TOAST_ACTION = "com.dhiva.storyapp.customview.TOAST_ACTION"
         const val EXTRA_STORIES = "extra_stories"
-        private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, stories: List<ListStoryItem?>) {
+        private fun updateAppWidget(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int,
+            stories: List<ListStoryItem?>
+        ) {
             val intent = Intent(context, StackWidgetService::class.java)
 
             val listStory = ArrayList<String>()
             stories.forEach {
-                it?.photoUrl?.let{ url ->
+                it?.photoUrl?.let { url ->
                     listStory.add(url)
                 }
             }
@@ -108,7 +102,8 @@ class StoryWidget : AppWidgetProvider() {
             toastIntent.action = TOAST_ACTION
             toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
 
-            val toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+            val toastPendingIntent = PendingIntent.getBroadcast(
+                context, 0, toastIntent,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                 else 0

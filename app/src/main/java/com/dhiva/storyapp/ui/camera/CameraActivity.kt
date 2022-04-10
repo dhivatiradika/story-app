@@ -37,8 +37,9 @@ class CameraActivity : AppCompatActivity() {
 
         binding.captureImage.setOnClickListener { takePhoto() }
         binding.switchCamera.setOnClickListener {
-            cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
-            else CameraSelector.DEFAULT_BACK_CAMERA
+            cameraSelector =
+                if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
+                else CameraSelector.DEFAULT_BACK_CAMERA
             startCamera()
         }
     }
@@ -123,7 +124,7 @@ class CameraActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    companion object{
+    companion object {
         const val EXTRA_PICTTURE = "picture"
         const val EXTRA_IS_BACK_CAMERA = "isBackCamera"
     }

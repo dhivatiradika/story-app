@@ -9,7 +9,7 @@ import com.dhiva.storyapp.databinding.ItemStoryBinding
 import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.utils.loadImage
 
-class ListStoryAdapter(private val listStories: List<Story>):
+class ListStoryAdapter(private val listStories: List<Story>) :
     RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 

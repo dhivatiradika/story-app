@@ -23,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class AddStoryViewModel(application: Application): AndroidViewModel(application) {
+class AddStoryViewModel(application: Application) : AndroidViewModel(application) {
     private val prefs = AuthPreferences.getInstance(application.preferences)
 
     private val _result = MutableLiveData<Resource<BasicResponse>>()
@@ -34,7 +34,7 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
         return prefs.getUserAuth().asLiveData()
     }
 
-    fun uploadImage(token: String, getFile: File?, desc: String){
+    fun uploadImage(token: String, getFile: File?, desc: String) {
         val file = reduceFileImage(getFile as File)
 
         val authToken = "Bearer $token"
@@ -54,7 +54,7 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
 
         client.enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.run {
                         _result.value = Resource.Success(this)
                     }

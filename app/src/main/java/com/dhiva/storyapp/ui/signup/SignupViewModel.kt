@@ -14,11 +14,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SignupViewModel(application: Application): AndroidViewModel(application) {
+class SignupViewModel(application: Application) : AndroidViewModel(application) {
     private val _result = MutableLiveData<Resource<BasicResponse>>()
     val result: LiveData<Resource<BasicResponse>> = _result
 
-    fun signup(name: String, email: String, password: String){
+    fun signup(name: String, email: String, password: String) {
         _result.value = Resource.Loading()
         val jsonObject = JSONObject()
         jsonObject.put("name", name)
@@ -31,7 +31,7 @@ class SignupViewModel(application: Application): AndroidViewModel(application) {
         val client = ApiConfig.getApiService().signup(requestBody)
         client.enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.run {
                         _result.value = Resource.Success(this)
                     }

@@ -16,7 +16,6 @@
     <string name="name">Nama</string>
     <string name="wrong_email_format">Format email salah!</string>
     <string name="wrong_password_format">Password harus lebih dari 6 karakter!</string>
-    <string name="loading">Loading</string>
     <string name="something_wrong">Terjadi kesalahan</string>
     <string name="wrong_name_format">Nama tidak valid!</string>
     <string name="signup_success">Berhasil membuat akun!</string>
@@ -42,6 +41,5 @@
     <string name="language">Bahasa</string>
     <string name="log_out">Keluar</string>
     <string name="appwidget_text">Cerita Dicoding</string>
-    <string name="add_widget">Tambah widget</string>
     <string name="app_widget_description">Kumpulan cerita dari user dicoding</string>
 </resources>

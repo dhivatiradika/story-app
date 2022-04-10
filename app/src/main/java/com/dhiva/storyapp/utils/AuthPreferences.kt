@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 val Context.preferences: DataStore<Preferences> by preferencesDataStore(name = "auth")
+
 class AuthPreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
     private val userIdKey = stringPreferencesKey("user_id")
@@ -35,7 +36,7 @@ class AuthPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
-    suspend fun removeUserAuth(){
+    suspend fun removeUserAuth() {
         dataStore.edit { it.clear() }
     }
 

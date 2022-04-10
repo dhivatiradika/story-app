@@ -1,9 +1,9 @@
 package com.dhiva.storyapp.ui.signup
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivitySignupBinding
@@ -19,7 +19,7 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        with(binding){
+        with(binding) {
             tvLogin.setOnClickListener {
                 finish()
             }
@@ -34,7 +34,7 @@ class SignupActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         signupViewModel.result.observe(this) { result ->
-            when(result){
+            when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
                     this.toast(resources.getString(R.string.signup_success))
@@ -53,7 +53,7 @@ class SignupActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
-        if (name.isEmpty()){
+        if (name.isEmpty()) {
             val message = resources.getString(R.string.wrong_name_format)
             this.toast(message)
             return
@@ -75,7 +75,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun isLoadingShown(isShown: Boolean) {
-        with(binding){
+        with(binding) {
             loadingScreen.visibility = if (isShown) View.VISIBLE else View.GONE
             signupScreen.visibility = if (isShown) View.GONE else View.VISIBLE
         }

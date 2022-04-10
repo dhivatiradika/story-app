@@ -13,9 +13,9 @@ data class Story(
     var lon: Float?,
     var id: String?,
     var lat: Float?
-): Parcelable
+) : Parcelable
 
-fun List<ListStoryItem?>.toModel(): List<Story>{
+fun List<ListStoryItem?>.toModel(): List<Story> {
     return this.map {
         Story(
             photoUrl = it?.photoUrl,
