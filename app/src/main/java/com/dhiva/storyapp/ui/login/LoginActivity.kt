@@ -16,6 +16,7 @@ import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.model.User
 import com.dhiva.storyapp.ui.main.MainActivity
 import com.dhiva.storyapp.ui.signup.SignupActivity
+import com.dhiva.storyapp.utils.ViewModelFactory
 import com.dhiva.storyapp.utils.matchEmailFormat
 import com.dhiva.storyapp.utils.toast
 
@@ -26,7 +27,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tvToRegister: TextView
     private lateinit var loginScreen: MotionLayout
     private lateinit var loadingScreen: ConstraintLayout
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels {
+        ViewModelFactory(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

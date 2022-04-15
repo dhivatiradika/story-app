@@ -17,9 +17,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
-    private val prefs = AuthPreferences.getInstance(application.preferences)
-
+class LoginViewModel(private val prefs: AuthPreferences) : ViewModel() {
     private val _result = MutableLiveData<Resource<LoginResult>>()
     val result: LiveData<Resource<LoginResult>> = _result
 

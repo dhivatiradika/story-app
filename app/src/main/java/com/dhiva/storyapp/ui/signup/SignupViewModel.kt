@@ -1,9 +1,8 @@
 package com.dhiva.storyapp.ui.signup
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.BasicResponse
@@ -14,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SignupViewModel(application: Application) : AndroidViewModel(application) {
+class SignupViewModel : ViewModel() {
     private val _result = MutableLiveData<Resource<BasicResponse>>()
     val result: LiveData<Resource<BasicResponse>> = _result
 

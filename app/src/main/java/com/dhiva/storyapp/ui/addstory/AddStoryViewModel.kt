@@ -1,10 +1,7 @@
 package com.dhiva.storyapp.ui.addstory
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.BasicResponse
@@ -23,18 +20,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class AddStoryViewModel(application: Application) : AndroidViewModel(application) {
-    private val prefs = AuthPreferences.getInstance(application.preferences)
-
+class AddStoryViewModel(private val token: String?) : ViewModel() {
     private val _result = MutableLiveData<Resource<BasicResponse>>()
     val result: LiveData<Resource<BasicResponse>> = _result
 
-    fun getAuthSession(): LiveData<User> {
-        _result.value = Resource.Loading()
-        return prefs.getUserAuth().asLiveData()
-    }
-
-    fun uploadImage(token: String, getFile: File?, desc: String) {
+    fun uploadImage(getFile: File?, desc: String) {
         val file = reduceFileImage(getFile as File)
 
         val authToken = "Bearer $token"

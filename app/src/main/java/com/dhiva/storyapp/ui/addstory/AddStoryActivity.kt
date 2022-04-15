@@ -16,8 +16,8 @@ import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityAddStoryBinding
 import com.dhiva.storyapp.ui.camera.CameraActivity
-import com.dhiva.storyapp.ui.login.LoginActivity
 import com.dhiva.storyapp.ui.main.MainActivity
+import com.dhiva.storyapp.utils.ViewModelFactory
 import com.dhiva.storyapp.utils.rotateBitmap
 import com.dhiva.storyapp.utils.toast
 import com.dhiva.storyapp.utils.uriToFile
@@ -25,7 +25,9 @@ import java.io.File
 
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
-    private val addStoryViewModel: AddStoryViewModel by viewModels()
+    private val addStoryViewModel: AddStoryViewModel by viewModels {
+        ViewModelFactory(this)
+    }
     private var getFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,25 +64,14 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         if (getFile != null) {
-            getTokenThenUpload()
+            upload()
         } else {
             this.toast(resources.getString(R.string.no_file))
         }
     }
 
-    private fun getTokenThenUpload() {
-        addStoryViewModel.getAuthSession().observe(this) { user ->
-            user.token?.let { token ->
-                if (token.isNotEmpty()) {
-                    addStoryViewModel.uploadImage(token, getFile, binding.etDesc.text.toString())
-                } else {
-                    startActivity(Intent(this@AddStoryActivity, LoginActivity::class.java))
-                    finish()
-                }
-            }
-
-        }
-
+    private fun upload() {
+        addStoryViewModel.uploadImage(getFile, binding.etDesc.text.toString())
         addStoryViewModel.result.observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)

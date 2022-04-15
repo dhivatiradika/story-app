@@ -1,36 +1,28 @@
 package com.dhiva.storyapp.ui.main
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.StoriesResponse
 import com.dhiva.storyapp.model.Story
-import com.dhiva.storyapp.model.User
 import com.dhiva.storyapp.model.toModel
 import com.dhiva.storyapp.utils.AuthPreferences
-import com.dhiva.storyapp.utils.preferences
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val prefs = AuthPreferences.getInstance(application.preferences)
+class MainViewModel(private val token: String?, private val prefs: AuthPreferences) : ViewModel() {
 
     private val _result = MutableLiveData<Resource<List<Story>>>()
     val result: LiveData<Resource<List<Story>>> = _result
-
-    fun getAuthSession(): LiveData<User> {
-        return prefs.getUserAuth().asLiveData()
-    }
 
     fun logout() = viewModelScope.launch {
         prefs.removeUserAuth()
     }
 
-    fun getStories(token: String) {
+    fun getStories() {
         _result.value = Resource.Loading()
         val authToken = "Bearer $token"
         val client = ApiConfig.getApiService().getStories(authToken)

@@ -14,11 +14,13 @@ import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.ui.addstory.AddStoryActivity
 import com.dhiva.storyapp.ui.detail.DetailStoryActivity
-import com.dhiva.storyapp.ui.login.LoginActivity
+import com.dhiva.storyapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels{
+        ViewModelFactory(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,17 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        mainViewModel.getAuthSession().observe(this) { user ->
-            user.token?.let { token ->
-                if (token.isNotEmpty()) {
-                    mainViewModel.getStories(token)
-                } else {
-                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                    finish()
-                }
-            }
-        }
-
         mainViewModel.result.observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)
@@ -67,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        mainViewModel.getStories()
     }
 
     private fun showRecyclerList(stories: List<Story>) {
@@ -88,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     private val launcherActivityAddStory = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        mainViewModel.getAuthSession()
+        mainViewModel.getStories()
     }
 
     private fun isLoadingShown(isShow: Boolean) {
