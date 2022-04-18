@@ -1,21 +1,23 @@
 package com.dhiva.storyapp.data
 
 import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
+import com.dhiva.storyapp.data.local.StoryDatabase
+import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.remote.ApiService
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
+import com.dhiva.storyapp.model.Story
 
-class StoryRepository(private val apiService: ApiService) {
-    fun getStories(token: String?): LiveData<PagingData<ListStoryItem>> {
+class StoryRepository(private val apiService: ApiService, private val database: StoryDatabase) {
+    @OptIn(ExperimentalPagingApi::class)
+    fun getStories(token: String?): LiveData<PagingData<StoryEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
+            remoteMediator = StoryRemoteMediator(token, database, apiService),
             pagingSourceFactory = {
-                StoryPagingSource(token, apiService)
+                database.storyDao().getAllStory()
             }
         ).liveData
     }

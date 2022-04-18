@@ -1,6 +1,7 @@
 package com.dhiva.storyapp.model
 
 import android.os.Parcelable
+import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
 import kotlinx.parcelize.Parcelize
 
@@ -29,7 +30,7 @@ fun List<ListStoryItem?>.toModel(): List<Story> {
     }
 }
 
-fun ListStoryItem.toModel(): Story = Story(
+fun StoryEntity.toModel(): Story = Story(
         photoUrl = this.photoUrl,
         createdAt = this.createdAt,
         name = this.name,

@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dhiva.storyapp.data.StoryRepository
+import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
@@ -22,7 +23,7 @@ class MainViewModel(storyRepository: StoryRepository, private val token: String?
     private val _result = MutableLiveData<Resource<List<Story>>>()
     val result: LiveData<Resource<List<Story>>> = _result
 
-    val stories: LiveData<PagingData<ListStoryItem>> =
+    val stories: LiveData<PagingData<StoryEntity>> =
         storyRepository.getStories(token).cachedIn(viewModelScope)
 
     fun logout() = viewModelScope.launch {

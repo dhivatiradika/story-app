@@ -2,6 +2,7 @@ package com.dhiva.storyapp.di
 
 import android.content.Context
 import com.dhiva.storyapp.data.StoryRepository
+import com.dhiva.storyapp.data.local.StoryDatabase
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.utils.AuthPreferences
 import com.dhiva.storyapp.utils.preferences
@@ -22,6 +23,7 @@ object Injection {
 
     fun provideRepository(context: Context): StoryRepository {
         val apiService = ApiConfig.getApiService()
-        return StoryRepository(apiService)
+        val database = StoryDatabase.getDatabase(context)
+        return StoryRepository(apiService, database)
     }
 }
