@@ -1,13 +1,9 @@
 package com.dhiva.storyapp.ui.addstory
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.BasicResponse
-import com.dhiva.storyapp.model.User
-import com.dhiva.storyapp.utils.AuthPreferences
-import com.dhiva.storyapp.utils.preferences
 import com.dhiva.storyapp.utils.reduceFileImage
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

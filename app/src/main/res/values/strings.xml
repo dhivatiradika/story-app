@@ -43,4 +43,5 @@
     <string name="appwidget_text">Dicoding stories</string>
     <string name="app_widget_description">List of dicoding users story</string>
     <string name="retry">Retry</string>
+    <string name="to_maps">go to maps</string>
 </resources>

@@ -20,6 +20,7 @@ import com.dhiva.storyapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: ListStoryAdapter
     private val mainViewModel: MainViewModel by viewModels{
         ViewModelFactory(this)
     }
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        val adapter = ListStoryAdapter()
+        adapter = ListStoryAdapter()
         binding.rvStory.layoutManager = LinearLayoutManager(this)
         binding.rvStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     private val launcherActivityAddStory = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        mainViewModel.getStories()
+        adapter.refresh()
     }
 
     private fun isLoadingShown(isShow: Boolean) {

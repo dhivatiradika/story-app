@@ -43,4 +43,5 @@
     <string name="appwidget_text">Cerita Dicoding</string>
     <string name="app_widget_description">Kumpulan cerita dari user dicoding</string>
     <string name="retry">Coba Lagi</string>
+    <string name="to_maps">pergi ke peta</string>
 </resources>
