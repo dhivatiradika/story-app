@@ -13,7 +13,7 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
-                return MainViewModel(Injection.provideToken(context), Injection.provideAuthPreferences(context)) as T
+                return MainViewModel(Injection.provideRepository(context), Injection.provideToken(context), Injection.provideAuthPreferences(context)) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")

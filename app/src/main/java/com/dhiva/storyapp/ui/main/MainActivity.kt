@@ -6,9 +6,11 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.adapter.ListStoryAdapter
+import com.dhiva.storyapp.adapter.LoadingStateAdapter
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
@@ -37,45 +39,41 @@ class MainActivity : AppCompatActivity() {
                 "SettingFragment"
             )
         }
-        initViewModel()
+        getData()
     }
 
-    private fun initViewModel() {
-        mainViewModel.result.observe(this) { result ->
-            when (result) {
-                is Resource.Loading -> isLoadingShown(true)
-                is Resource.Success -> {
-                    isLoadingShown(false)
-                    if (result.data != null && result.data.isNotEmpty()) {
-                        showRecyclerList(result.data)
-                    } else {
-                        showError(resources.getString(R.string.no_data))
-                    }
-                }
-                is Resource.Error -> {
-                    isLoadingShown(false)
-                    showError(result.message ?: resources.getString(R.string.something_wrong))
-                }
-            }
-        }
-        mainViewModel.getStories()
-    }
-
-    private fun showRecyclerList(stories: List<Story>) {
-        binding.rvStory.visibility = View.VISIBLE
-        binding.rvStory.setHasFixedSize(true)
+    private fun getData() {
+        val adapter = ListStoryAdapter()
         binding.rvStory.layoutManager = LinearLayoutManager(this)
-        val listAdapter = ListStoryAdapter(stories)
-        binding.rvStory.adapter = listAdapter
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
 
-        listAdapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
+        adapter.addLoadStateListener {
+            when(it.source.refresh){
+                is LoadState.Loading -> isLoadingShown(true)
+                is LoadState.NotLoading -> isLoadingShown(false)
+                is LoadState.Error -> showError(resources.getString(R.string.something_wrong))
+            }
+
+        }
+
+        adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Story) {
                 val intent = Intent(this@MainActivity, DetailStoryActivity::class.java)
                 intent.putExtra(EXTRA_STORY, data)
                 startActivity(intent)
             }
+
         })
+
+        mainViewModel.stories.observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
+
 
     private val launcherActivityAddStory = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -88,6 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
+        isLoadingShown(false)
         binding.tvError.text = message
         binding.tvError.visibility = View.VISIBLE
     }

@@ -1,8 +1,12 @@
 package com.dhiva.storyapp.ui.main
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.dhiva.storyapp.data.StoryRepository
 import com.dhiva.storyapp.data.remote.ApiConfig
 import com.dhiva.storyapp.data.remote.Resource
+import com.dhiva.storyapp.data.remote.response.ListStoryItem
 import com.dhiva.storyapp.data.remote.response.StoriesResponse
 import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.model.toModel
@@ -13,10 +17,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val token: String?, private val prefs: AuthPreferences) : ViewModel() {
+class MainViewModel(storyRepository: StoryRepository, private val token: String?, private val prefs: AuthPreferences) : ViewModel() {
 
     private val _result = MutableLiveData<Resource<List<Story>>>()
     val result: LiveData<Resource<List<Story>>> = _result
+
+    val stories: LiveData<PagingData<ListStoryItem>> =
+        storyRepository.getStories(token).cachedIn(viewModelScope)
 
     fun logout() = viewModelScope.launch {
         prefs.removeUserAuth()

@@ -28,3 +28,13 @@ fun List<ListStoryItem?>.toModel(): List<Story> {
         )
     }
 }
+
+fun ListStoryItem.toModel(): Story = Story(
+        photoUrl = this.photoUrl,
+        createdAt = this.createdAt,
+        name = this.name,
+        description = this.description,
+        lon = this.lon,
+        id = this.id,
+        lat = this.lat
+    )
