@@ -4,6 +4,7 @@ import android.content.Context
 import com.dhiva.storyapp.data.StoryRepository
 import com.dhiva.storyapp.data.local.StoryDatabase
 import com.dhiva.storyapp.data.remote.ApiConfig
+import com.dhiva.storyapp.data.remote.RemoteDataSource
 import com.dhiva.storyapp.utils.AuthPreferences
 import com.dhiva.storyapp.utils.preferences
 import kotlinx.coroutines.flow.first
@@ -25,5 +26,10 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         val database = StoryDatabase.getDatabase(context)
         return StoryRepository(apiService, database)
+    }
+
+    fun provideRemoteDataSource(): RemoteDataSource{
+        val apiService = ApiConfig.getApiService()
+        return RemoteDataSource(apiService)
     }
 }

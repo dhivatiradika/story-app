@@ -7,6 +7,8 @@ import com.dhiva.storyapp.di.Injection
 import com.dhiva.storyapp.ui.addstory.AddStoryViewModel
 import com.dhiva.storyapp.ui.login.LoginViewModel
 import com.dhiva.storyapp.ui.main.MainViewModel
+import com.dhiva.storyapp.ui.maps.MapsViewModel
+import com.google.android.gms.maps.model.MapStyleOptions
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,6 +24,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
                 return AddStoryViewModel(Injection.provideToken(context)) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                @Suppress("UNCHECKED_CAST")
+                return MapsViewModel(Injection.provideToken(context), Injection.provideRemoteDataSource()) as T
             }
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -16,6 +16,7 @@ import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.ui.addstory.AddStoryActivity
 import com.dhiva.storyapp.ui.detail.DetailStoryActivity
+import com.dhiva.storyapp.ui.maps.MapsActivity
 import com.dhiva.storyapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager,
                 "SettingFragment"
             )
+        }
+        binding.ibMaps.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java))
         }
         getData()
     }

@@ -5,6 +5,8 @@ import androidx.paging.*
 import com.dhiva.storyapp.data.local.StoryDatabase
 import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.remote.ApiService
+import com.dhiva.storyapp.data.remote.Resource
+import com.dhiva.storyapp.data.remote.response.BasicResponse
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
 import com.dhiva.storyapp.model.Story
 

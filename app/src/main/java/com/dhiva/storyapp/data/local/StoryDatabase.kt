@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.dhiva.storyapp.data.local.dao.StoryDao
 import com.dhiva.storyapp.data.local.entity.RemoteKeysEntity
 import com.dhiva.storyapp.data.local.entity.StoryEntity
-import com.dhiva.storyapp.data.remote.RemoteKeysDao
+import com.dhiva.storyapp.data.local.dao.RemoteKeysDao
 
 @Database(
     entities = [StoryEntity::class, RemoteKeysEntity::class],
