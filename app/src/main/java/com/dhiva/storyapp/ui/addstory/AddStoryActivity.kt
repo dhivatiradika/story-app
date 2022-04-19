@@ -71,8 +71,7 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun upload() {
-        addStoryViewModel.uploadImage(getFile, binding.etDesc.text.toString())
-        addStoryViewModel.result.observe(this) { result ->
+        addStoryViewModel.uploadStory(getFile, binding.etDesc.text.toString()).observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
@@ -91,7 +90,6 @@ class AddStoryActivity : AppCompatActivity() {
                     this.toast(result.message ?: resources.getString(R.string.something_wrong))
                 }
             }
-
         }
     }
 

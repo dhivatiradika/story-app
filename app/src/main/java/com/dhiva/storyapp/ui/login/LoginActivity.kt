@@ -65,23 +65,6 @@ class LoginActivity : AppCompatActivity() {
                 isLoadingShown(false)
             }
         }
-        loginViewModel.result.observe(this) { result ->
-            when (result) {
-                is Resource.Loading -> isLoadingShown(true)
-                is Resource.Success -> {
-                    val user = User(
-                        name = result.data?.name,
-                        userId = result.data?.userId,
-                        token = result.data?.token
-                    )
-                    loginViewModel.setAuthSession(user)
-                }
-                is Resource.Error -> {
-                    isLoadingShown(false)
-                    this.toast(result.message ?: resources.getString(R.string.something_wrong))
-                }
-            }
-        }
     }
 
     private fun login() {
@@ -100,7 +83,23 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        loginViewModel.login(email, password)
+        loginViewModel.login(email, password).observe(this){ result ->
+            when (result) {
+                is Resource.Loading -> isLoadingShown(true)
+                is Resource.Success -> {
+                    val user = User(
+                        name = result.data?.name,
+                        userId = result.data?.userId,
+                        token = result.data?.token
+                    )
+                    loginViewModel.setAuthSession(user)
+                }
+                is Resource.Error -> {
+                    isLoadingShown(false)
+                    this.toast(result.message ?: resources.getString(R.string.something_wrong))
+                }
+            }
+        }
     }
 
     private fun isLoadingShown(isShown: Boolean) {

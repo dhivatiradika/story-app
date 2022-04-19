@@ -2,10 +2,8 @@ package com.dhiva.storyapp.ui.maps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.dhiva.storyapp.data.remote.RemoteDataSource
-import kotlinx.coroutines.launch
+import com.dhiva.storyapp.data.StoryRepository
 
-class MapsViewModel(token: String?, remoteDataSource: RemoteDataSource): ViewModel() {
-    val stories = remoteDataSource.getStoriesLocation(token).asLiveData()
+class MapsViewModel(token: String?, storyRepository: StoryRepository): ViewModel() {
+    val stories = storyRepository.getStoriesLocation(token).asLiveData()
 }

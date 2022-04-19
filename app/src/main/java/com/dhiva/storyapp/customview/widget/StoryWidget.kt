@@ -10,6 +10,7 @@ import android.widget.RemoteViews
 import androidx.core.net.toUri
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.ApiConfig
+import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
 import com.dhiva.storyapp.data.remote.response.StoriesResponse
 import com.dhiva.storyapp.utils.AuthPreferences
@@ -18,8 +19,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class StoryWidget : AppWidgetProvider() {
@@ -45,25 +48,16 @@ class StoryWidget : AppWidgetProvider() {
         scope.launch {
             user.collect {
                 it.token?.let { token ->
-                    val authToken = "Bearer $token"
-                    val client = ApiConfig.getApiService().getStories(authToken)
-
-                    client.enqueue(object : Callback<StoriesResponse> {
-                        override fun onResponse(
-                            call: Call<StoriesResponse>,
-                            response: Response<StoriesResponse>
-                        ) {
-                            if (response.isSuccessful) {
-                                response.body()?.listStory?.run {
-                                    updateAppWidget(context, appWidgetManager, appWidgetId, this)
-                                }
-                            }
+                    try {
+                        val authToken = "Bearer $token"
+                        val response = ApiConfig.getApiService().getStories(authToken, 1, 10)
+                        val dataArray = response.listStory
+                        if (dataArray.isNotEmpty()) {
+                            updateAppWidget(context, appWidgetManager, appWidgetId, dataArray)
                         }
-
-                        override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
-                        }
-
-                    })
+                    } catch (e: HttpException) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }

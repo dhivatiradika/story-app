@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivitySignupBinding
+import com.dhiva.storyapp.utils.ViewModelFactory
 import com.dhiva.storyapp.utils.matchEmailFormat
 import com.dhiva.storyapp.utils.toast
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private val signupViewModel: SignupViewModel by viewModels()
+    private val signupViewModel: SignupViewModel by viewModels{
+        ViewModelFactory(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,24 +29,6 @@ class SignupActivity : AppCompatActivity() {
 
             btLogin.setOnClickListener {
                 signUp()
-            }
-        }
-
-        initViewModel()
-    }
-
-    private fun initViewModel() {
-        signupViewModel.result.observe(this) { result ->
-            when (result) {
-                is Resource.Loading -> isLoadingShown(true)
-                is Resource.Success -> {
-                    this.toast(resources.getString(R.string.signup_success))
-                    finish()
-                }
-                is Resource.Error -> {
-                    isLoadingShown(false)
-                    this.toast(result.message ?: resources.getString(R.string.something_wrong))
-                }
             }
         }
     }
@@ -71,7 +56,20 @@ class SignupActivity : AppCompatActivity() {
             return
         }
 
-        signupViewModel.signup(name, email, password)
+        signupViewModel.signup(name, email, password).observe(this){result ->
+            when (result) {
+                is Resource.Loading -> isLoadingShown(true)
+                is Resource.Success -> {
+                    this.toast(resources.getString(R.string.signup_success))
+                    finish()
+                }
+                is Resource.Error -> {
+                    isLoadingShown(false)
+                    this.toast(result.message ?: resources.getString(R.string.something_wrong))
+                }
+            }
+
+        }
     }
 
     private fun isLoadingShown(isShown: Boolean) {

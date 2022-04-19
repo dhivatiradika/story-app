@@ -5,24 +5,18 @@ import com.dhiva.storyapp.data.remote.response.LoginResponse
 import com.dhiva.storyapp.data.remote.response.StoriesResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
     @POST("login")
-    fun login(
+    suspend fun login(
         @Body requestBody: RequestBody
-    ): Call<LoginResponse>
+    ): LoginResponse
 
     @POST("register")
-    fun signup(
+    suspend fun signup(
         @Body requestBody: RequestBody
-    ): Call<BasicResponse>
-
-    @GET("stories")
-    fun getStories(
-        @Header("Authorization") token: String
-    ): Call<StoriesResponse>
+    ): BasicResponse
 
     @GET("stories")
     suspend fun getStories(
@@ -34,9 +28,9 @@ interface ApiService {
 
     @Multipart
     @POST("stories")
-    fun uploadImage(
+    suspend fun uploadStory(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-    ): Call<BasicResponse>
+    ): BasicResponse
 }
