@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -21,6 +22,8 @@ import com.dhiva.storyapp.utils.ViewModelFactory
 import com.dhiva.storyapp.utils.rotateBitmap
 import com.dhiva.storyapp.utils.toast
 import com.dhiva.storyapp.utils.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.io.File
 
 class AddStoryActivity : AppCompatActivity() {
@@ -29,6 +32,9 @@ class AddStoryActivity : AppCompatActivity() {
         ViewModelFactory(this)
     }
     private var getFile: File? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var location: Location? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +49,25 @@ class AddStoryActivity : AppCompatActivity() {
             )
         }
         init()
+        getLocation()
+    }
+
+    private fun getLocation(){
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    this.location = location
+                } else {
+                    this.toast(getString(R.string.location_not_found))
+                }
+            }
+        }
     }
 
     private fun init() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         with(binding) {
             ibBack.setOnClickListener {
                 finish()
@@ -71,7 +93,7 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun upload() {
-        addStoryViewModel.uploadStory(getFile, binding.etDesc.text.toString()).observe(this) { result ->
+        addStoryViewModel.uploadStory(getFile, binding.etDesc.text.toString(), location).observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {
@@ -100,15 +122,24 @@ class AddStoryActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (!allPermissionsGranted()) {
+            if (!checkPermission(Manifest.permission.CAMERA)) {
                 this.toast(resources.getString(R.string.no_permission))
                 finish()
+            } else {
+                getLocation()
             }
         }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun startGallery() {
@@ -164,7 +195,11 @@ class AddStoryActivity : AppCompatActivity() {
     companion object {
         const val CAMERA_X_RESULT = 200
 
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private val REQUIRED_PERMISSIONS = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }

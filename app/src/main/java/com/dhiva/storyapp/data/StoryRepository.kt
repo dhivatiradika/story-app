@@ -1,5 +1,6 @@
 package com.dhiva.storyapp.data
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.paging.*
 import com.dhiva.storyapp.data.local.StoryDatabase
@@ -119,7 +120,7 @@ class StoryRepository(private val apiService: ApiService, private val database: 
         }.flowOn(Dispatchers.IO)
     }
 
-    fun uploadStory(getFile: File?, desc: String, token: String?): Flow<Resource<BasicResponse>>{
+    fun uploadStory(getFile: File?, desc: String, token: String?, location: Location?): Flow<Resource<BasicResponse>>{
         return flow {
             try {
                 val file = reduceFileImage(getFile as File)
@@ -132,8 +133,10 @@ class StoryRepository(private val apiService: ApiService, private val database: 
                     file.name,
                     requestImageFile
                 )
+                val lat = location?.latitude
+                val lon = location?.longitude
 
-                val response = apiService.uploadStory(authToken, imageMultipart, description)
+                val response = apiService.uploadStory(authToken, imageMultipart, description, lat, lon)
 
                 if (!response.error){
                     emit(Resource.Success(response))

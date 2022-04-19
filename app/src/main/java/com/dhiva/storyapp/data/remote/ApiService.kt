@@ -32,5 +32,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") lat: Double? = null,
+        @Part("lon") lon: Double? = null,
     ): BasicResponse
 }
