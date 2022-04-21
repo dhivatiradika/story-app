@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.dhiva.storyapp.data.StoryRepository
 
-class MapsViewModel(token: String?, storyRepository: StoryRepository): ViewModel() {
-    val stories = storyRepository.getStoriesLocation(token).asLiveData()
+class MapsViewModel(private val token: String?, private val storyRepository: StoryRepository): ViewModel() {
+    fun stories() = storyRepository.getStoriesLocation(token).asLiveData()
 }

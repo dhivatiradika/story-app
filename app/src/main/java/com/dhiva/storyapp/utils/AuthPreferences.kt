@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.map
 
 val Context.preferences: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class AuthPreferences private constructor(private val dataStore: DataStore<Preferences>) {
+open class AuthPreferences(private val dataStore: DataStore<Preferences>) {
 
     private val userIdKey = stringPreferencesKey("user_id")
     private val nameKey = stringPreferencesKey("name_key")
     private val tokenKey = stringPreferencesKey("token_key")
 
-    fun getUserAuth(): Flow<User> {
+    open fun getUserAuth(): Flow<User> {
         return dataStore.data.map { preferences ->
             User(
                 name = preferences[userIdKey],
@@ -28,7 +28,7 @@ class AuthPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
-    suspend fun saveUserAuth(user: User) {
+    open suspend fun saveUserAuth(user: User) {
         dataStore.edit { preferences ->
             preferences[userIdKey] = user.userId ?: ""
             preferences[nameKey] = user.name ?: ""

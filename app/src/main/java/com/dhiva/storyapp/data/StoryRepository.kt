@@ -24,9 +24,9 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.File
 
-class StoryRepository(private val apiService: ApiService, private val database: StoryDatabase) {
+open class StoryRepository(private val apiService: ApiService, private val database: StoryDatabase) {
     @OptIn(ExperimentalPagingApi::class)
-    fun getStories(token: String?): LiveData<PagingData<StoryEntity>> {
+    open fun getStories(token: String?): Flow<PagingData<StoryEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
@@ -35,10 +35,10 @@ class StoryRepository(private val apiService: ApiService, private val database: 
             pagingSourceFactory = {
                 database.storyDao().getAllStory()
             }
-        ).liveData
+        ).flow
     }
 
-    fun getStoriesLocation(token: String?): Flow<Resource<List<ListStoryItem>>> {
+    open fun getStoriesLocation(token: String?): Flow<Resource<List<ListStoryItem>>> {
         return flow {
             try {
                 emit(Resource.Loading())
@@ -60,7 +60,7 @@ class StoryRepository(private val apiService: ApiService, private val database: 
         }.flowOn(Dispatchers.IO)
     }
 
-    fun login(email: String, password: String): Flow<Resource<LoginResult>> {
+    open fun login(email: String, password: String): Flow<Resource<LoginResult>> {
         return flow {
             try {
                 emit(Resource.Loading())
@@ -90,7 +90,7 @@ class StoryRepository(private val apiService: ApiService, private val database: 
         }.flowOn(Dispatchers.IO)
     }
 
-    fun signUp(name: String, email: String, password: String): Flow<Resource<BasicResponse>> {
+    open fun signUp(name: String, email: String, password: String): Flow<Resource<BasicResponse>> {
         return flow {
             try {
                 emit(Resource.Loading())
@@ -120,7 +120,7 @@ class StoryRepository(private val apiService: ApiService, private val database: 
         }.flowOn(Dispatchers.IO)
     }
 
-    fun uploadStory(getFile: File?, desc: String, token: String?, location: Location?): Flow<Resource<BasicResponse>>{
+    open fun uploadStory(getFile: File?, desc: String, token: String?, location: Location?): Flow<Resource<BasicResponse>>{
         return flow {
             try {
                 val file = reduceFileImage(getFile as File)

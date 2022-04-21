@@ -49,7 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun initViewModel() {
-        mapsViewModel.stories.observe(this) {
+        mapsViewModel.stories().observe(this) {
             when(it){
                 is Resource.Loading -> Log.d("", "Loading")
                 is Resource.Error -> Log.e("", it.message ?: "")
