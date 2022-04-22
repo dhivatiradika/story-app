@@ -2,11 +2,10 @@ package com.dhiva.storyapp.utils
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.remote.Resource
-import com.dhiva.storyapp.data.remote.response.BasicResponse
-import com.dhiva.storyapp.data.remote.response.ListStoryItem
-import com.dhiva.storyapp.data.remote.response.LoginResult
+import com.dhiva.storyapp.data.remote.response.*
 import com.dhiva.storyapp.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -59,5 +58,41 @@ object DataDummy {
             storyList.add(story)
         }
         return storyList
+    }
+
+    fun generateDummyStoryEntity(): List<StoryEntity> {
+        val storyList = ArrayList<StoryEntity>()
+        for (i in 1..5){
+            val story = StoryEntity(
+                id = "$i",
+                photoUrl = "www.test.com/img.jpg",
+                createdAt = "2022-04-20T16:03:17.000Z",
+                name = "test $i",
+                description = "desc",
+            )
+            storyList.add(story)
+        }
+        return storyList
+    }
+
+    fun generateDummyStoriesResponse(): StoriesResponse {
+        return StoriesResponse(
+            listStory = generateDummyStories(),
+            error = false,
+            message = "success"
+        )
+    }
+
+    fun generateDummyLoginResponse(): LoginResponse {
+        return LoginResponse(
+            loginResult = generateDummyLoginResult(),
+            error = false,
+            message = "success"
+
+        )
+    }
+
+    fun generatePagingSource(): PagingSource<Int, StoryEntity> {
+        return PagingSourceUtil()
     }
 }
