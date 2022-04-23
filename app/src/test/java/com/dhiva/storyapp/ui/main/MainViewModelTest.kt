@@ -21,7 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MainViewModelTest{
+class MainViewModelTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -31,8 +31,10 @@ class MainViewModelTest{
 
     @Mock
     private lateinit var authPreferences: AuthPreferences
+
     @Mock
     private lateinit var apiService: ApiService
+
     @Mock
     private lateinit var storyDatabase: StoryDatabase
     private lateinit var storyRepository: FakeStoryRepository
@@ -46,7 +48,7 @@ class MainViewModelTest{
 
     @InternalCoroutinesApi
     @Test
-    fun `get stories return not null`()  {
+    fun `get stories return not null`() {
         val actualStories = mainViewModel.stories().getOrAwaitValue()
         assertNotNull(actualStories)
     }

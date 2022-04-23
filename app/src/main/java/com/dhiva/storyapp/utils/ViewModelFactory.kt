@@ -15,11 +15,18 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
-                return MainViewModel(Injection.provideRepository(context), Injection.provideToken(context), Injection.provideAuthPreferences(context)) as T
+                return MainViewModel(
+                    Injection.provideRepository(context),
+                    Injection.provideToken(context),
+                    Injection.provideAuthPreferences(context)
+                ) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
-                return LoginViewModel(Injection.provideRepository(context), Injection.provideAuthPreferences(context)) as T
+                return LoginViewModel(
+                    Injection.provideRepository(context),
+                    Injection.provideAuthPreferences(context)
+                ) as T
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
@@ -27,11 +34,17 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
             }
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
-                return AddStoryViewModel(Injection.provideRepository(context), Injection.provideToken(context)) as T
+                return AddStoryViewModel(
+                    Injection.provideRepository(context),
+                    Injection.provideToken(context)
+                ) as T
             }
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
-                return MapsViewModel(Injection.provideToken(context), Injection.provideRepository(context)) as T
+                return MapsViewModel(
+                    Injection.provideToken(context),
+                    Injection.provideRepository(context)
+                ) as T
             }
         }
         throw IllegalArgumentException("Unknown ViewModel class")

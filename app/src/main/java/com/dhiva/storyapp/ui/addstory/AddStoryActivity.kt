@@ -52,7 +52,7 @@ class AddStoryActivity : AppCompatActivity() {
         getLocation()
     }
 
-    private fun getLocation(){
+    private fun getLocation() {
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
             checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
@@ -93,26 +93,27 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun upload() {
-        addStoryViewModel.uploadStory(getFile, binding.etDesc.text.toString(), location).observe(this) { result ->
-            when (result) {
-                is Resource.Loading -> isLoadingShown(true)
-                is Resource.Success -> {
-                    isLoadingShown(false)
-                    result.data?.let {
-                        this.toast(it.message)
-                        if (!it.error) {
-                            val intent = Intent()
-                            setResult(MainActivity.INTENT_RESULT, intent)
-                            finish()
+        addStoryViewModel.uploadStory(getFile, binding.etDesc.text.toString(), location)
+            .observe(this) { result ->
+                when (result) {
+                    is Resource.Loading -> isLoadingShown(true)
+                    is Resource.Success -> {
+                        isLoadingShown(false)
+                        result.data?.let {
+                            this.toast(it.message)
+                            if (!it.error) {
+                                val intent = Intent()
+                                setResult(MainActivity.INTENT_RESULT, intent)
+                                finish()
+                            }
                         }
                     }
-                }
-                is Resource.Error -> {
-                    isLoadingShown(false)
-                    this.toast(result.message ?: resources.getString(R.string.something_wrong))
+                    is Resource.Error -> {
+                        isLoadingShown(false)
+                        this.toast(result.message ?: resources.getString(R.string.something_wrong))
+                    }
                 }
             }
-        }
     }
 
     override fun onRequestPermissionsResult(

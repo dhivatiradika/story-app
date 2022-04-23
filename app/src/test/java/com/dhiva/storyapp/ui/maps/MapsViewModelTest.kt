@@ -30,6 +30,7 @@ class MapsViewModelTest {
 
     @Mock
     private lateinit var apiService: ApiService
+
     @Mock
     private lateinit var storyDatabase: StoryDatabase
     private lateinit var storyRepository: FakeStoryRepository

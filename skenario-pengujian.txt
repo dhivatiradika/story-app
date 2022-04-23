@@ -1,0 +1,61 @@
+UNIT TEST
+
+1. LoginViewModelTest
+
+a. Login berhasil dan mengembalikan login result
+b. Login dalam tahap loading
+c. Login gagal dan mengembalikan pesan error
+
+2. SignupViewModelTest
+
+a. Signup berhasil dan mengembalikan basic response
+b. Signup dalam tahap loading
+c. Signup gagal dan mengembalikan pesan error
+
+3.  MainViewModelTest
+
+a. Get stories berhasil mengembalikan data berupa paging data dan tidak null
+b. Saat logout, fungsi removeuAuthUser di authPref dipastikan terpanggil
+
+4. MapsViewModelTest
+
+a. GetStoriesLocation berhasil dan mengembalikan stories lengkap dengan location
+b. GetStoriesLocation dalam tahap loading
+c. GetStoriesLocation gagal dan mengembalikan pesan error
+
+5. AddStoryViewModelTest
+
+a. Add story berhasil dan mengembalikan basic response
+b. Add story dalam tahap loading
+c. Add story gagal dan mengembalikan pesan error
+
+6. StoryRepositoryTest
+
+a. Get stories berhasil mengembalikan paging source dan tidak null
+b. Saat getStoriesLocation dipanggil akan mengembalikan emission dengan berurutan berupa: Loading, Success, Complete, dan data dari state succes tidak null
+c. Saat login dipanggil akan mengembalikan emission dengan berurutan berupa: Loading, Success, Complete, dan data dari state succes tidak null
+d. Saat signup dipanggil akan mengembalikan emission dengan berurutan berupa: Loading, Success, Complete, dan data dari state succes tidak null
+e. Saat uploadStory dipanggil akan mengembalikan emission dengan berurutan berupa: Loading, Success, Complete, dan data dari state succes tidak null
+
+INTEGRATION TEST
+
+1. MainActivityTest
+
+a. Saat user mengambil data dari API, dan diresponse dengan sukses maka recycler view ditampilkan dengan data yang tepat
+b. Saat user mengambil data dari API, dan diresponse dengan 500 akan tetap menampilan recyclerview yang didapat dari local database
+
+END-TO-END TEST
+
+1. LoginActivityTest (dijalankan dalam keadaan tanpa session)
+
+a. Mengembalikan toast error saat format email salah
+b. Mengembalikan toast error saat format password salah
+b. Berhasil login dengan email dan password yang benar
+
+2. MainActivityLargeTest (dijalankan dalam keadaan session user sudah tersimpan)
+
+a. Data stories dapat ditampilkan di recycler view
+b. Saat story teratas diklik maka akan pindah ke halaman detail story
+c. Saat image button maps ditekan makan akan pindah ke halaman maps
+d. Saat image button settings ditekan maka akan muncul dialog fragment settings
+e. Saat image button settings ditekan lalu diikuti dengan menekan text view logout, maka akan kembali ke halaman login

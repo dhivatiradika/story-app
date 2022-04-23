@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.dhiva.storyapp.data.local.dao.RemoteKeysDao
 import com.dhiva.storyapp.data.local.dao.StoryDao
 import com.dhiva.storyapp.data.local.entity.RemoteKeysEntity
 import com.dhiva.storyapp.data.local.entity.StoryEntity
-import com.dhiva.storyapp.data.local.dao.RemoteKeysDao
 
 @Database(
     entities = [StoryEntity::class, RemoteKeysEntity::class],

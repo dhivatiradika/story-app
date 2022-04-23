@@ -10,6 +10,7 @@ import com.dhiva.storyapp.data.local.entity.RemoteKeysEntity
 import com.dhiva.storyapp.data.local.entity.StoryEntity
 import com.dhiva.storyapp.data.local.entity.toEntity
 import com.dhiva.storyapp.data.remote.ApiService
+import com.dhiva.storyapp.utils.EspressoIdlingResource
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
@@ -29,7 +30,7 @@ class StoryRemoteMediator(
         val authToken = "Bearer $token"
 
         val page = when (loadType) {
-            LoadType.REFRESH ->{
+            LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                 remoteKeys?.nextKey?.minus(1) ?: INITIAL_PAGE_INDEX
             }
@@ -46,7 +47,6 @@ class StoryRemoteMediator(
                 nextKey
             }
         }
-
         try {
             val responseData = apiService.getStories(authToken, page, state.config.pageSize)
             val endOfPaginationReached = responseData.listStory.isEmpty()
@@ -66,6 +66,8 @@ class StoryRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
             return MediatorResult.Error(exception)
+        } finally {
+            EspressoIdlingResource.decrement()
         }
     }
 

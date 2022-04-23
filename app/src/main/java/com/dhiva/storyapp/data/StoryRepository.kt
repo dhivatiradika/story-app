@@ -12,7 +12,9 @@ import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.BasicResponse
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
 import com.dhiva.storyapp.data.remote.response.LoginResult
+import com.dhiva.storyapp.utils.EspressoIdlingResource
 import com.dhiva.storyapp.utils.reduceFileImage
+import com.dhiva.storyapp.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,9 +28,13 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.File
 
-open class StoryRepository(private val apiService: ApiService, private val database: StoryDatabase) {
+open class StoryRepository(
+    private val apiService: ApiService,
+    private val database: StoryDatabase
+) {
     @OptIn(ExperimentalPagingApi::class)
     open fun getStories(token: String?): Flow<PagingData<StoryEntity>> {
+        EspressoIdlingResource.increment()
         return Pager(
             config = PagingConfig(
                 pageSize = 5
@@ -43,14 +49,16 @@ open class StoryRepository(private val apiService: ApiService, private val datab
     open fun getStoriesLocation(token: String?): Flow<Resource<List<ListStoryItem>>> {
         return flow {
             try {
-                emit(Resource.Loading())
-                val authToken = "Bearer $token"
-                val response = apiService.getStories(authToken, 1, 20, 1)
-                val dataArray = response.listStory
-                if (dataArray.isNotEmpty()) {
-                    emit(Resource.Success(dataArray))
-                } else {
-                    emit(Resource.Error("Empty"))
+                wrapEspressoIdlingResource {
+                    emit(Resource.Loading())
+                    val authToken = "Bearer $token"
+                    val response = apiService.getStories(authToken, 1, 20, 1)
+                    val dataArray = response.listStory
+                    if (dataArray.isNotEmpty()) {
+                        emit(Resource.Success(dataArray))
+                    } else {
+                        emit(Resource.Error("Empty"))
+                    }
                 }
             } catch (e: HttpException) {
                 val error = e.response()?.errorBody()
@@ -58,6 +66,8 @@ open class StoryRepository(private val apiService: ApiService, private val datab
                     val message = JSONObject(error.string()).getString("message")
                     emit(Resource.Error(message))
                 }
+            } catch (e: Exception) {
+                emit(Resource.Error("Something wrong"))
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -65,21 +75,23 @@ open class StoryRepository(private val apiService: ApiService, private val datab
     open fun login(email: String, password: String): Flow<Resource<LoginResult>> {
         return flow {
             try {
-                emit(Resource.Loading())
-                val jsonObject = JSONObject()
-                jsonObject.put("email", email)
-                jsonObject.put("password", password)
+                wrapEspressoIdlingResource {
+                    emit(Resource.Loading())
+                    val jsonObject = JSONObject()
+                    jsonObject.put("email", email)
+                    jsonObject.put("password", password)
 
-                val jsonObjectString = jsonObject.toString()
-                val requestBody =
-                    jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+                    val jsonObjectString = jsonObject.toString()
+                    val requestBody =
+                        jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 
-                val response = apiService.login(requestBody)
+                    val response = apiService.login(requestBody)
 
-                if (!response.error && response.loginResult != null) {
-                    emit(Resource.Success(response.loginResult))
-                } else {
-                    emit(Resource.Error(response.message))
+                    if (!response.error && response.loginResult != null) {
+                        emit(Resource.Success(response.loginResult))
+                    } else {
+                        emit(Resource.Error(response.message))
+                    }
                 }
 
             } catch (e: HttpException) {
@@ -88,6 +100,8 @@ open class StoryRepository(private val apiService: ApiService, private val datab
                     val message = JSONObject(error.string()).getString("message")
                     emit(Resource.Error(message))
                 }
+            } catch (e: Exception) {
+                emit(Resource.Error("Something wrong"))
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -95,62 +109,76 @@ open class StoryRepository(private val apiService: ApiService, private val datab
     open fun signUp(name: String, email: String, password: String): Flow<Resource<BasicResponse>> {
         return flow {
             try {
-                emit(Resource.Loading())
-                val jsonObject = JSONObject()
-                jsonObject.put("name", name)
-                jsonObject.put("email", email)
-                jsonObject.put("password", password)
+                wrapEspressoIdlingResource {
+                    emit(Resource.Loading())
+                    val jsonObject = JSONObject()
+                    jsonObject.put("name", name)
+                    jsonObject.put("email", email)
+                    jsonObject.put("password", password)
 
-                val jsonObjectString = jsonObject.toString()
-                val requestBody =
-                    jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+                    val jsonObjectString = jsonObject.toString()
+                    val requestBody =
+                        jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 
-                val response = apiService.signup(requestBody)
+                    val response = apiService.signup(requestBody)
 
-                if (!response.error){
-                    emit(Resource.Success(response))
-                } else {
-                    emit(Resource.Error(response.message))
+                    if (!response.error) {
+                        emit(Resource.Success(response))
+                    } else {
+                        emit(Resource.Error(response.message))
+                    }
                 }
-            } catch (e: HttpException){
+            } catch (e: HttpException) {
                 val error = e.response()?.errorBody()
                 if (error != null) {
                     val message = JSONObject(error.string()).getString("message")
                     emit(Resource.Error(message))
                 }
+            } catch (e: Exception) {
+                emit(Resource.Error("Something wrong"))
             }
         }.flowOn(Dispatchers.IO)
     }
 
-    open fun uploadStory(getFile: File?, desc: String, token: String?, location: Location?): Flow<Resource<BasicResponse>>{
+    open fun uploadStory(
+        getFile: File?,
+        desc: String,
+        token: String?,
+        location: Location?
+    ): Flow<Resource<BasicResponse>> {
         return flow {
             try {
-                val file = reduceFileImage(getFile as File)
+                wrapEspressoIdlingResource {
+                    val file = reduceFileImage(getFile as File)
 
-                val authToken = "Bearer $token"
-                val description = desc.toRequestBody("text/plain".toMediaType())
-                val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                    "photo",
-                    file.name,
-                    requestImageFile
-                )
-                val lat = location?.latitude
-                val lon = location?.longitude
+                    val authToken = "Bearer $token"
+                    val description = desc.toRequestBody("text/plain".toMediaType())
+                    val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                    val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                        "photo",
+                        file.name,
+                        requestImageFile
+                    )
+                    val lat = location?.latitude
+                    val lon = location?.longitude
 
-                val response = apiService.uploadStory(authToken, imageMultipart, description, lat, lon)
+                    val response =
+                        apiService.uploadStory(authToken, imageMultipart, description, lat, lon)
 
-                if (!response.error){
-                    emit(Resource.Success(response))
-                } else {
-                    emit(Resource.Error(response.message))
+                    if (!response.error) {
+                        emit(Resource.Success(response))
+                    } else {
+                        emit(Resource.Error(response.message))
+                    }
                 }
-            } catch (e: HttpException){
+            } catch (e: HttpException) {
                 val error = e.response()?.errorBody()
                 if (error != null) {
                     val message = JSONObject(error.string()).getString("message")
                     emit(Resource.Error(message))
                 }
+            } catch (e: Exception) {
+                emit(Resource.Error("Something wrong"))
             }
         }.flowOn(Dispatchers.IO)
     }

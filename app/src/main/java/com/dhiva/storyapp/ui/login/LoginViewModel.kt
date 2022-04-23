@@ -11,7 +11,10 @@ import com.dhiva.storyapp.model.User
 import com.dhiva.storyapp.utils.AuthPreferences
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val storyRepository: StoryRepository, private val prefs: AuthPreferences) : ViewModel() {
+class LoginViewModel(
+    private val storyRepository: StoryRepository,
+    private val prefs: AuthPreferences
+) : ViewModel() {
 
     fun login(email: String, password: String): LiveData<Resource<LoginResult>> =
         storyRepository.login(email, password).asLiveData()

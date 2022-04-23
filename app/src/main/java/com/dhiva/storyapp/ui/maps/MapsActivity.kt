@@ -1,15 +1,14 @@
 package com.dhiva.storyapp.ui.maps
 
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityMapsBinding
 import com.dhiva.storyapp.utils.ViewModelFactory
-
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -50,13 +49,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initViewModel() {
         mapsViewModel.stories().observe(this) {
-            when(it){
+            when (it) {
                 is Resource.Loading -> Log.d("", "Loading")
                 is Resource.Error -> Log.e("", it.message ?: "")
                 is Resource.Success -> {
                     it.data?.let { listStory ->
-                        for (story in listStory){
-                            if (story.lat != null && story.lon != null){
+                        for (story in listStory) {
+                            if (story.lat != null && story.lon != null) {
                                 val latLng = LatLng(story.lat.toDouble(), story.lon.toDouble())
                                 mMap.addMarker(MarkerOptions().position(latLng).title(story.name))
                             }

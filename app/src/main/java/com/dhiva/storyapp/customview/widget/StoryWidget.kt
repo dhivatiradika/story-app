@@ -10,20 +10,14 @@ import android.widget.RemoteViews
 import androidx.core.net.toUri
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.data.remote.ApiConfig
-import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
-import com.dhiva.storyapp.data.remote.response.StoriesResponse
 import com.dhiva.storyapp.utils.AuthPreferences
 import com.dhiva.storyapp.utils.preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class StoryWidget : AppWidgetProvider() {
     private val job = SupervisorJob()

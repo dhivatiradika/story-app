@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        loginViewModel.login(email, password).observe(this){ result ->
+        loginViewModel.login(email, password).observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {

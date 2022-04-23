@@ -14,7 +14,7 @@ class FakeAuthPreferences(dataStore: DataStore<Preferences>) : AuthPreferences(d
     var isSaveCalled = false
 
     override fun getUserAuth(): Flow<User> {
-        return when(state){
+        return when (state) {
             is Resource.Success -> flowOf(DataDummy.generateDummyUser())
             is Resource.Error -> flowOf(User(null, null, null))
             else -> flowOf(User(null, null, null))

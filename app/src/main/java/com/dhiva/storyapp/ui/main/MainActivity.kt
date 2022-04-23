@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhiva.storyapp.R
 import com.dhiva.storyapp.adapter.ListStoryAdapter
 import com.dhiva.storyapp.adapter.LoadingStateAdapter
-import com.dhiva.storyapp.data.remote.Resource
 import com.dhiva.storyapp.databinding.ActivityMainBinding
 import com.dhiva.storyapp.model.Story
 import com.dhiva.storyapp.ui.addstory.AddStoryActivity
@@ -22,7 +21,7 @@ import com.dhiva.storyapp.utils.ViewModelFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: ListStoryAdapter
-    private val mainViewModel: MainViewModel by viewModels{
+    private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory(this)
     }
 
@@ -57,12 +56,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter.addLoadStateListener {
-            when(it.source.refresh){
+            when (it.source.refresh) {
                 is LoadState.Loading -> isLoadingShown(true)
                 is LoadState.NotLoading -> isLoadingShown(false)
                 is LoadState.Error -> showError(resources.getString(R.string.something_wrong))
             }
-
         }
 
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {

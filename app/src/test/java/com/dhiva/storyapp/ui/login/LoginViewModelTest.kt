@@ -33,10 +33,12 @@ class LoginViewModelTest {
 
     @Mock
     private lateinit var apiService: ApiService
+
     @Mock
     private lateinit var storyDatabase: StoryDatabase
+
     @Mock
-    private lateinit var pref : DataStore<Preferences>
+    private lateinit var pref: DataStore<Preferences>
     private lateinit var authPreferences: FakeAuthPreferences
     private lateinit var storyRepository: FakeStoryRepository
     private lateinit var loginViewModel: LoginViewModel

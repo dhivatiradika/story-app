@@ -3,7 +3,6 @@ package com.dhiva.storyapp.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dhiva.storyapp.data.remote.response.ListStoryItem
-import com.dhiva.storyapp.model.Story
 
 @Entity(tableName = "story")
 data class StoryEntity(
@@ -17,7 +16,7 @@ data class StoryEntity(
     val lat: Float? = null
 )
 
-fun List<ListStoryItem>.toEntity() : List<StoryEntity>{
+fun List<ListStoryItem>.toEntity(): List<StoryEntity> {
     return this.map {
         StoryEntity(
             photoUrl = it.photoUrl,

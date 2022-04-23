@@ -13,7 +13,7 @@ import com.dhiva.storyapp.utils.toast
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private val signupViewModel: SignupViewModel by viewModels{
+    private val signupViewModel: SignupViewModel by viewModels {
         ViewModelFactory(this)
     }
 
@@ -56,7 +56,7 @@ class SignupActivity : AppCompatActivity() {
             return
         }
 
-        signupViewModel.signup(name, email, password).observe(this){result ->
+        signupViewModel.signup(name, email, password).observe(this) { result ->
             when (result) {
                 is Resource.Loading -> isLoadingShown(true)
                 is Resource.Success -> {

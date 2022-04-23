@@ -1,0 +1,51 @@
+{
+  "error": false,
+  "message": "Stories fetched successfully",
+  "listStory": [
+    {
+      "id": "story-w7B0uwEy7JomOKQS",
+      "name": "name-to-test",
+      "description": "0_0",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1650648695787_rfpUye3_.jpg",
+      "createdAt": "2022-04-22T17:31:35.788Z",
+      "lat": -7.6305785,
+      "lon": 111.868675
+    },
+    {
+      "id": "story-PaAnhFJtojeFXClb",
+      "name": "new",
+      "description": "ssss",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1650648644867_j4TFDP37.jpg",
+      "createdAt": "2022-04-22T17:30:44.870Z",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "story-4FrlDBUxq8Nt4SE3",
+      "name": "new",
+      "description": "qqq",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1650648628271_uZ116ARd.jpg",
+      "createdAt": "2022-04-22T17:30:28.273Z",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "story-nLqxW8yTzdTEXkC_",
+      "name": "Aditasha",
+      "description": "bacot",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1650648497426_uUnuG5_g.jpg",
+      "createdAt": "2022-04-22T17:28:17.428Z",
+      "lat": -7.9373465,
+      "lon": 112.625
+    },
+    {
+      "id": "story-6HHkLU2_bnn86xZC",
+      "name": "agata",
+      "description": "anjay lokasi",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1650648466867_KB39IDCB.jpg",
+      "createdAt": "2022-04-22T17:27:46.871Z",
+      "lat": -7.7022178,
+      "lon": 110.7042379
+    }
+  ]
+}

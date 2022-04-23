@@ -34,6 +34,7 @@ class StoryRepositoryTest {
 
     @Mock
     private lateinit var file: File
+
     @Mock
     private lateinit var storyDatabase: StoryDatabase
     private lateinit var storyDao: FakeStoryDao
@@ -54,17 +55,18 @@ class StoryRepositoryTest {
     }
 
     @Test
-    fun `getStoriesLocation should emit loading, success with data(not null), and then complete`() = runTest {
-        storyRepository.getStoriesLocation("").test {
-            val emissionLoading = awaitItem()
-            val emissionSuccess = awaitItem()
-            awaitComplete()
+    fun `getStoriesLocation should emit loading, success with data(not null), and then complete`() =
+        runTest {
+            storyRepository.getStoriesLocation("").test {
+                val emissionLoading = awaitItem()
+                val emissionSuccess = awaitItem()
+                awaitComplete()
 
-            assertTrue(emissionLoading is Resource.Loading)
-            assertTrue(emissionSuccess is Resource.Success)
-            assertNotNull(emissionSuccess.data)
+                assertTrue(emissionLoading is Resource.Loading)
+                assertTrue(emissionSuccess is Resource.Success)
+                assertNotNull(emissionSuccess.data)
+            }
         }
-    }
 
     @Test
     fun `login should emit loading, success with data(not null), and then complete`() = runTest {
@@ -97,17 +99,18 @@ class StoryRepositoryTest {
     }
 
     @Test
-    fun `uploadStory should emit loading, success with data(not null), and then complete`() = runTest {
-        launch {
-            storyRepository.uploadStory(file, "desc", "token", null).test {
-                val emissionLoading = awaitItem()
-                val emissionSuccess = awaitItem()
-                awaitComplete()
+    fun `uploadStory should emit loading, success with data(not null), and then complete`() =
+        runTest {
+            launch {
+                storyRepository.uploadStory(file, "desc", "token", null).test {
+                    val emissionLoading = awaitItem()
+                    val emissionSuccess = awaitItem()
+                    awaitComplete()
 
-                assertTrue(emissionLoading is Resource.Loading)
-                assertTrue(emissionSuccess is Resource.Success)
-                assertNotNull(emissionSuccess.data)
+                    assertTrue(emissionLoading is Resource.Loading)
+                    assertTrue(emissionSuccess is Resource.Success)
+                    assertNotNull(emissionSuccess.data)
+                }
             }
         }
-    }
 }
